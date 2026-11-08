@@ -1,0 +1,13 @@
+{
+  "name": "telecomopen-sudan-map",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sudan mobile cell observations map",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  }
+}

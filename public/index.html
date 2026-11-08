@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2f0e9">
+    <title>شبكات السودان | Telecomopen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="Telecomopen الصفحة الرئيسية">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>TELECOM<span class="wordmark-light">OPEN</span></span>
+      </a>
+      <div class="topbar-title">
+        <span class="eyebrow">خريطة الاتصالات</span>
+        <h1>شبكات السودان</h1>
+      </div>
+      <div class="topbar-meta"><span class="live-dot"></span> السودان <span class="meta-divider">/</span> 634</div>
+    </header>
+
+    <main class="workspace">
+      <aside class="control-panel" aria-label="عناصر التحكم بالخريطة">
+        <div class="panel-intro">
+          <div class="panel-index">01 <span>—</span> النطاق</div>
+          <h2>ابحث حولك</h2>
+          <p>مواقع خلايا المحمول المرصودة في محيطك.</p>
+          <button class="location-button" id="locate-button" type="button">
+            <span class="locate-icon" aria-hidden="true">◎</span>
+            <span>استخدم موقعي</span>
+            <span class="button-arrow" aria-hidden="true">←</span>
+          </button>
+          <div class="location-state" id="location-state" aria-live="polite">يتم تحديد الموقع عند السماح للمتصفح بذلك.</div>
+        </div>
+
+        <section class="filter-section" aria-labelledby="network-title">
+          <div class="section-heading">
+            <h3 id="network-title">شركة الاتصالات</h3>
+            <button class="text-action" id="all-networks" type="button">الكل</button>
+          </div>
+          <div class="network-list">
+            <label class="network-option"><input type="checkbox" name="network" value="1" checked><span class="checkmark"></span><span class="network-name">زين</span><span class="network-code">01</span><span class="network-swatch swatch-zain"></span></label>
+            <label class="network-option"><input type="checkbox" name="network" value="2" checked><span class="checkmark"></span><span class="network-name">MTN</span><span class="network-code">02</span><span class="network-swatch swatch-mtn"></span></label>
+            <label class="network-option"><input type="checkbox" name="network" value="7" checked><span class="checkmark"></span><span class="network-name">سوداني</span><span class="network-code">07</span><span class="network-swatch swatch-sudani"></span></label>
+            <label class="network-option"><input type="checkbox" name="network" value="other" checked><span class="checkmark"></span><span class="network-name">شبكات أخرى</span><span class="network-code">—</span><span class="network-swatch swatch-other"></span></label>
+          </div>
+        </section>
+
+        <section class="filter-section generation-section" aria-labelledby="generation-title">
+          <div class="section-heading">
+            <h3 id="generation-title">تقنية الاتصال</h3>
+            <span class="section-note">حسب البيانات المتاحة</span>
+          </div>
+          <div class="generation-list">
+            <label class="generation-option"><input type="checkbox" name="generation" value="2G" checked><span class="generation-dot dot-2g"></span><span>2G</span><small>GSM</small></label>
+            <label class="generation-option"><input type="checkbox" name="generation" value="3G" checked><span class="generation-dot dot-3g"></span><span>3G</span><small>UMTS</small></label>
+            <label class="generation-option"><input type="checkbox" name="generation" value="4G" checked><span class="generation-dot dot-4g"></span><span>4G</span><small>LTE</small></label>
+            <label class="generation-option"><input type="checkbox" name="generation" value="5G" checked><span class="generation-dot dot-5g"></span><span>5G</span><small>NR</small></label>
+          </div>
+        </section>
+
+        <div class="data-note" id="data-note" role="status">
+          <span class="note-icon" aria-hidden="true">i</span>
+          <p>النقاط تمثل خلايا مسجلة، ولا تؤكد توفر التغطية أو جودتها في الموقع.</p>
+        </div>
+
+        <footer class="panel-footer">
+          <div class="data-source"><span class="source-line"></span><span>مصادر البيانات</span></div>
+          <div class="source-links"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a><span>·</span><a href="https://opencellid.org/" target="_blank" rel="noreferrer">OpenCellID</a><span>·</span><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license noreferrer">CC BY-SA 4.0</a><span>·</span><a href="https://opencellid.org/#zoom=3&amp;lat=37.7&amp;lon=-122.5" target="_blank" rel="noreferrer">خريطة OpenCellID</a></div>
+          <div class="refresh-meta" id="refresh-meta">جاهز لعرض المنطقة</div>
+        </footer>
+      </aside>
+
+      <section class="map-panel" aria-label="خريطة مواقع خلايا الاتصالات">
+        <div id="map" role="application" aria-label="خريطة تفاعلية للسودان"></div>
+        <div class="map-toolbar">
+          <div class="map-state"><span class="map-state-dot" id="map-state-dot"></span><span id="map-state-text">عرض السودان</span></div>
+          <button class="icon-button" id="refresh-button" type="button" title="تحديث الخلايا" aria-label="تحديث الخلايا"><span aria-hidden="true">↻</span></button>
+        </div>
+        <div class="map-readout" aria-live="polite">
+          <span class="readout-caption">خلايا في النطاق</span>
+          <strong id="cell-count">—</strong>
+          <span class="readout-unit">نقطة مرصودة</span>
+        </div>
+        <div class="map-legend" aria-label="مفتاح ألوان تقنيات الاتصال">
+          <span><i class="legend-dot dot-2g"></i>2G</span>
+          <span><i class="legend-dot dot-3g"></i>3G</span>
+          <span><i class="legend-dot dot-4g"></i>4G</span>
+          <span><i class="legend-dot dot-5g"></i>5G</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
